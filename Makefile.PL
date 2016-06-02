@@ -35,7 +35,7 @@ my %config = (
                 repository  => {
                     type => 'git',
                     web  => 'https://github.com/neilbowers/AppConfig',
-                    url  => 'git://github.com/neilbowers/AppConfig.git',
+                    url  => 'https://github.com/neilbowers/AppConfig.git',
                 },
             },
           })
