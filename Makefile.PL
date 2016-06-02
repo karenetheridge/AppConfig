@@ -1,15 +1,16 @@
-use ExtUtils::MakeMaker;
+use strict;
+use warnings;
 
-my $mm_ver = $ExtUtils::MakeMaker::VERSION;
-if ($mm_ver =~ /_/) { # dev version
-    $mm_ver = eval $mm_ver;
-    die $@ if $@;
-}
+use 5.8.8;
+use ExtUtils::MakeMaker;
 
 my %config = (
     'NAME'	   => 'AppConfig',
     'VERSION_FROM' => 'lib/AppConfig.pm', # finds $VERSION
-    'PMLIBDIRS'    => [ 'lib' ],
+
+    AUTHOR   => 'Andy Wardley <abw@wardley.org>',
+    ABSTRACT => 'AppConfig is a bundle of Perl5 modules for reading configuration files and parsing command line arguments.',
+
     'PREREQ_PM'    => {
         'Test::More'    => 0,
     },
@@ -27,43 +28,26 @@ my %config = (
         'SUFFIX'   => 'gz',
     },
 
-    ($mm_ver <= 6.45
-        ? ()
-        : (META_MERGE => {
-            'meta-spec' => { version => 2 },
-            resources => {
-                repository  => {
-                    type => 'git',
-                    web  => 'https://github.com/neilbowers/AppConfig',
-                    url  => 'https://github.com/neilbowers/AppConfig.git',
-                },
+    META_MERGE => {
+        'meta-spec' => { version => 2 },
+        dynamic_config => 0,
+        resources => {
+            repository  => {
+                type => 'git',
+                web  => 'https://github.com/neilbowers/AppConfig',
+                url  => 'https://github.com/neilbowers/AppConfig.git',
             },
-          })
-    ),
+        },
+    },
 
-    ($mm_ver <= 6.45
-        ? ()
-        : (TEST_REQUIRES => {
-            'Test::More' => '0',
-        })
-    ),
+    TEST_REQUIRES => {
+        'Test::More' => '0',
+    },
 
-    ($mm_ver < 6.48
-        ? ()
-        : (MIN_PERL_VERSION => '5.8.8',)
-    ),
+    MIN_PERL_VERSION => '5.8.8',
 
-    ($mm_ver <= 6.31
-        ? ()
-        : (LICENSE => 'perl_5')
-    ),
-
+    LICENSE => 'perl_5',
 );
 
-## for PPD on win32
-if ($] ge '5.005') {
-    $config{ AUTHOR   } = 'Andy Wardley <abw@wardley.org>',
-    $config{ ABSTRACT } = 'AppConfig is a bundle of Perl5 modules for reading configuration files and parsing command line arguments.';
-}
 
 WriteMakefile(%config);
